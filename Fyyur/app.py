@@ -259,7 +259,7 @@ def search_venues():
     "data": []
   }
   for venue in results:
-    show_results = show_state(venue.shows)
+    show_results = show_state(venue.id)
     response['data'].append({
       "id": venue.id,
       "name": venue.name,
@@ -462,7 +462,7 @@ def search_artists():
     "data": []
   }
   for artist in results:
-    show_results = show_state(artist.shows)
+    show_results = show_state(artist.id)
     response['data'].append({
       "id": artist.id,
       "name": artist.name,
