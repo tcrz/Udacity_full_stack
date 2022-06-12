@@ -236,23 +236,33 @@ The API will return three error types when requests fail:
    ```json
    {
     "previous_questions": [1, 4, 20, 15]
-    "quiz_category": 'current category'
+    "quiz_category": "current category"
    }
    ```
    - Returns: a single new question object
 - Sample response:
 ```json
 {
-    'question': {
-        'id': 1,
-        'question': 'This is a question',
-        'answer': 'This is an answer',
-        'difficulty': 5,
-        'category': 4
+    "question": {
+      "answer": "Uruguay", 
+      "category": 6, 
+      "difficulty": 4, 
+      "id": 11, 
+      "question": "Which country won the first ever soccer World Cup in 1930?"
     }
 }
 ```
 
+## Testing
+Tests for the API endpoints can be found in the `test_flaskr.py` file located in the backend folder.
 
+To deploy the tests, run:
+
+```bash
+dropdb trivia_test
+createdb trivia_test
+psql trivia_test < trivia.psql
+python test_flaskr.py
+```
 
 
