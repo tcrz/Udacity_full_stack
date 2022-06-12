@@ -93,7 +93,7 @@ The API will return three error types when requests fail:
 - 422: Unprocessable 
 
 ### Endpoints 
-`GET '/categories'`
+#### `GET '/categories'`
 - General:
     - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Sample: `curl http://127.0.0.1:5000/categories`
@@ -110,7 +110,7 @@ The API will return three error types when requests fail:
 }
 ```
 
-`GET '/questions?page=${integer}'`
+#### `GET '/questions?page=${integer}'`
 - General:
     - Fetches a paginated set of questions, a total number of questions and all categories.
     - Request Arguments: page - integer
@@ -139,11 +139,11 @@ The API will return three error types when requests fail:
 }
 ```
 
-`DELETE '/questions/${id}'`
+#### `DELETE '/questions/${id}'`
 - General:
     - Deletes a specified question using the id of the question
     - Request Arguments: id - integer 
-    - Return: a dictionary containing the id of the deleted object, success of the request and total questions
+    - Return: a dictionary containing the id of the deleted object, success of the request and total number of questions
 - Sample: `curl -X DELETE http://127.0.0.1:5000/questions/10`
 ```json
 {
@@ -153,11 +153,11 @@ The API will return three error types when requests fail:
 }
 ```
 
-`POST '/questions'`
+#### `POST '/questions'`
 - General:
     - Creates and stores a question object
-    - Return: a dictionary containing the id of the created question object, success of the request and total questions
-    - Sample: `curl -X POST -H "Content-Type: application/json" -d '{"question":"What is the nickname of the Ghana men's football team?", "answer":"Black Stars","category": "6", "difficulty":"3"}' http://127.0.0.1:5000/questions`
+    - Return: a dictionary containing the id of the created question object, success of the request and total nmber of questions
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"question":"What is the nickname of the Ghana men's football team?", "answer":"Black Stars","category": "6", "difficulty":"3"}' http://127.0.0.1:5000/questions`
 ```json
 {
   "question_created_id": 32, 
@@ -165,5 +165,94 @@ The API will return three error types when requests fail:
   "total_questions": 20
 }
 ```
+
+#### `POST '/search_questions'`
+- General:
+    - Sends a post request in order to search for a specific question by search term
+    - Request Body example:
+    ```json
+    {
+    "searchTerm": "title"
+    }
+
+    ```
+    - Return: a dictionary containing the list of questions and total number of questions that match search query
+- Sample: `curl -X POST -H "Content-Type: application/json" -d '{"searchTerm":"title"}' http://127.0.0.1:5000/search_questions`
+```json
+{
+     "questions": [
+       {
+         "answer": "Maya Angelou", 
+         "category": 4, 
+         "difficulty": 2, 
+         "id": 5, 
+         "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+       }, 
+       {
+         "answer": "Edward Scissorhands", 
+         "category": 5, 
+         "difficulty": 3, 
+         "id": 6, 
+         "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+       }
+     ], 
+     "total_questions": 2
+}
+```
+
+#### `GET '/categories/${id}/questions'`
+- General:
+    - Fetches questions for a cateogry specified by id request argument
+    - Request Arguments: id - integer 
+    - Returns: A dictionary with questions for the specified category, total questions, and current category string
+- Sample: `curl localhost:5000/categories/6/questions`
+```json
+{
+  "current_category": "Sports", 
+  "questions": [
+    {
+      "answer": "Uruguay", 
+      "category": 6, 
+      "difficulty": 4, 
+      "id": 11, 
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    }, 
+    {
+      "answer": "Black Stars", 
+      "category": 6, 
+      "difficulty": 3, 
+      "id": 32, 
+      "question": "What is the nickname of the Ghana mens football team?"
+    }
+  ], 
+  "total_questions": 2
+}
+```
+
+#### `POST '/quizzes'`
+- General:
+   - Sends a post request in order to get the next question
+   - Request body example:
+   ```json
+   {
+    "previous_questions": [1, 4, 20, 15]
+    "quiz_category": 'current category'
+   }
+   ```
+   - Returns: a single new question object
+- Sample response:
+```json
+{
+    'question': {
+        'id': 1,
+        'question': 'This is a question',
+        'answer': 'This is an answer',
+        'difficulty': 5,
+        'category': 4
+    }
+}
+```
+
+
 
 
