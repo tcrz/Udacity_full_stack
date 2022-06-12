@@ -96,42 +96,74 @@ The API will return three error types when requests fail:
 `GET '/categories'`
 - General:
     - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-    - Results are paginated in groups of 10. Include a request argument to choose page number, starting from 1. 
 - Sample: `curl http://127.0.0.1:5000/categories`
 ```json
 {
+  "categories": { 
   "1": "Science",
   "2": "Art",
   "3": "Geography",
   "4": "History",
   "5": "Entertainment",
   "6": "Sports"
+  }
 }
 ```
 
-`GET '/questions'`
+`GET '/questions?page=${integer}'`
 - General:
-    - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+    - Fetches a paginated set of questions, a total number of questions and all categories.
+    - Request Arguments: page - integer
     - Results are paginated in groups of 10. Include a request argument to choose page number, starting from 1. 
-- Sample: `curl http://127.0.0.1:5000/categories`
+- Sample: `curl http://127.0.0.1:5000/questions`
 ```json
 {
-    'questions': [
+    "questions": [
         {
-            'id': 1,
-            'question': 'This is a question',
-            'answer': 'This is an answer',
-            'difficulty': 5,
-            'category': 2
+            "id": 1,
+            "question": "This is a question",
+            "answer": "This is an answer",
+            "difficulty": 5,
+            "category": 2
         },
     ],
-    'totalQuestions': 100,
-    'categories': { '1' : "Science",
-    '2' : "Art",
-    '3' : "Geography",
-    '4' : "History",
-    '5' : "Entertainment",
-    '6' : "Sports" }
+    "total_questions": 20,
+    "categories": { 
+     "1": "Science",
+     "2": "Art",
+     "3": "Geography",
+     "4": "History",
+     "5": "Entertainment",
+     "6": "Sports"
+     }
 }
 ```
+
+`DELETE '/questions/${id}'`
+- General:
+    - Deletes a specified question using the id of the question
+    - Request Arguments: id - integer 
+    - Return: a dictionary containing the id of the deleted object, success of the request and total questions
+- Sample: `curl -X DELETE http://127.0.0.1:5000/questions/10`
+```json
+{
+  "question_deleted_id": 10, 
+  "success": true, 
+  "total_questions": 19
+}
+```
+
+`POST '/questions'`
+- General:
+    - Creates and stores a question object
+    - Return: a dictionary containing the id of the created question object, success of the request and total questions
+    - Sample: `curl -X POST -H "Content-Type: application/json" -d '{"question":"What is the nickname of the Ghana men's football team?", "answer":"Black Stars","category": "6", "difficulty":"3"}' http://127.0.0.1:5000/questions`
+```json
+{
+  "question_created_id": 32, 
+  "success": true, 
+  "total_questions": 20
+}
+```
+
 
